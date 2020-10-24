@@ -14,13 +14,13 @@ RUN apt-get update && export DEBIAN_FRONTEND=noninteractive \
     && apt-get purge -y imagemagick imagemagick-6-common \
     # Install common packages, non-root user, updated lldb, dependencies
     && bash /tmp/library-scripts/common-debian.sh "${INSTALL_ZSH}" "${USERNAME}" "${USER_UID}" "${USER_GID}" "${UPGRADE_PACKAGES}" \
-    && apt-get install -y lldb python3-minimal libpython3.7 python3-dev \
+    && apt-get install -y lldb python3-minimal libpython3.7 python3-dev npm \
     && apt-get autoremove -y && apt-get clean -y && rm -rf /var/lib/apt/lists/* /tmp/library-scripts
 
 # Install Rust components
 RUN  rustup  update  \
     && rustup component add rls rust-analysis rust-src rustfmt clippy 2>&1 
-RUN cargo install cargo-edit
+RUN cargo install cargo-edit cargo-generate
 RUN find  /usr/local/cargo/bin/ -exec chmod 777 {} \; 
 
 
